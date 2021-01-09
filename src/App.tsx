@@ -1,22 +1,33 @@
 import React from 'react';
+import {useForm} from 'react-hook-form';
+import "./App.css"
 
-const App = () => {
+type Profile = {
+	name: string
+}
 
-  const returnName = async () => {
 
-  }
+function App(){
+	
+	const {register, handleSubmit, errors} = useForm<Profile>()
 
-  return (
-    <div className="App">
-      <h1>Hi there! Welcome to your education showcase.</h1>
-      <h4>Type your name and click "Enter" below to begin!</h4>
-      <label>
-      	Name:
-      	<input type="text" name="name" />
-      </label>
-      <button className="enter" onClick={returnName}>Enter</button>
-    </div>
-  );
+	const onSubmit = handleSubmit((data) => {
+		alert(JSON.stringify(data))
+	})
+
+	return(
+		<form onSubmit={onSubmit} >
+			<h2>Hi there! Welcome to your education showcase.</h2>
+			<h2>Type your name and click enter to begin</h2>
+			<div>
+				<label htmlFor="name">Name</label>
+				<input ref={register({required: true})} id="name" name="name" type="text"/>
+				{
+					errors.name && <div className="error">Enter your name</div>
+				}
+			</div>
+			<button type="submit">Enter</button>
+		</form>);
 }
 
 export default App;
