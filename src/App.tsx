@@ -1,33 +1,36 @@
-import React from 'react';
-import {useForm} from 'react-hook-form';
+import React, {useState} from 'react';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 import "./App.css"
 
-type Profile = {
-	name: string
-}
+export default function App() {
 
-
-function App(){
+	const [name, setName] = useState("");
 	
-	const {register, handleSubmit, errors} = useForm<Profile>()
+	function validateName(){
+		return name.length > 0;
+	}
 
-	const onSubmit = handleSubmit((data) => {
-		alert(JSON.stringify(data))
-	})
+	function handleSubmit(event: any){
+		event.preventDefault();
+	}
 
 	return(
-		<form onSubmit={onSubmit} >
-			<h2>Hi there! Welcome to your education showcase.</h2>
-			<h2>Type your name and click enter to begin</h2>
-			<div>
-				<label htmlFor="name">Name</label>
-				<input ref={register({required: true})} id="name" name="name" type="text"/>
-				{
-					errors.name && <div className="error">Enter your name</div>
-				}
-			</div>
-			<button type="submit">Enter</button>
-		</form>);
-}
+		<div className="Login">
+			<Form onSubmit={handleSubmit}>
+				<Form.Group controlId="email">
+					<h2>Hi there! Welcome to your education showcase.</h2>
+					<div></div>
+					<h2>Type your name and click "Enter" below to begin!</h2>
+					<Form.Control autoFocus type="name" value={name} onChange={
+						(e) => setName(e.target.value)
+					} />
+				</Form.Group>
+				<Button block type="submit" disabled={!validateName()}>
+					Enter
+				</Button>
+			</Form>
+		</div>
+	);
 
-export default App;
+}
